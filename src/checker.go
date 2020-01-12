@@ -1,4 +1,4 @@
-package main
+package src
 
 //TODO(gaurav): looks like Checker will have to be an interface
 
