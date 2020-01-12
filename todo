@@ -1,0 +1,3 @@
+** OptionsManagerMixin is inherited for handling configurations from command line as well as a file
+
+** `PyLinter` class maintains a dict of _reporters. We might have to implement that
