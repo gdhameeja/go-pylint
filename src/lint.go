@@ -29,7 +29,17 @@ func (p PyLinter) RegisterChecker(checker Checker) {
 // names. filesOrModules is a list of strings presenting the
 // modules to check; although if config.jobs (number of workers)
 // is specified as 1 (default) we use internal method called _do_check()
-func (p PyLinter) Check(filesOrModules []string) {}
+// for now we will only do one one worker
+// NOTE: Add whether message which are registered in the message store may
+//       be emitted or not as in `PyLinter.check`
+func (p PyLinter) Check(filesOrModules []string) {
+	p.doCheck(filesOrModules)
+}
+
+// walks the `filesOrModules` and builds the ast
+func (p PyLinter) doCheck(filesOrModules []string) {
+	walker := InitWalker(p)
+}
 
 func (p PyLinter) setReporter(reporter Reporter) {}
 

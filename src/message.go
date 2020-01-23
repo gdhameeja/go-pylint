@@ -6,6 +6,7 @@ import (
 )
 
 // Actual message omitted by checkers. These are used in reports??
+// NOTE: can be configured to not be emitted on `PyLinter`
 type Message struct {
 	path string
 	description string
