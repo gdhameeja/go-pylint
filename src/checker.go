@@ -17,5 +17,3 @@ func (c Checker) getMessages() map[string]MessageDefinition {
 	msgMap := make(map[string]MessageDefinition)
 	return msgMap
 }
-
-

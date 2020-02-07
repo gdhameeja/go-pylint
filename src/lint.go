@@ -44,6 +44,13 @@ func (p PyLinter) doCheck(filesOrModules []string) {
 func (p PyLinter) setReporter(reporter Reporter) {}
 
 
+// PrepareChcecker returns array of all the needed checkers
+// for now it returns all the available checkers.
+func (p PyLinter) PrepareCheckers() []Checker {
+	return []Checker {p}
+}
+
+
 
 // use the given linter to lint the files with given amount of workers (jobs)
 // for now we're going to do everything on the main thread, then maybe

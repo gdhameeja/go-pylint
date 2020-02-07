@@ -11,6 +11,10 @@ type ASTWalker struct {
 	leaveEvents map[string][]string
 }
 
+func (w ASTWalker) AddChecker(checker Checker) {
+
+}
+
 func InitWalker(linter PyLinter) *ASTWalker {
 	walker := new(ASTWalker)
 	walker.linter = linter
