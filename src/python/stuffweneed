@@ -1,0 +1,6 @@
+## this is the list of stuff we would need the python code to output for IPC
+Interprocess communication for go code to consume
+
+** we need if the node is pure python code, astroid has a is_pure_python method
+** token information from tokenize module, like token type, token content, and stuff
+basically this stuff (tok_type, content, start, _, _)

@@ -50,6 +50,10 @@ func (p PyLinter) PrepareCheckers() []Checker {
 	return []Checker {p}
 }
 
+// communicates with python code to get the ast
+func (p PyLinter) GetAst(filepath string, modname string) {
+}
+
 
 
 // use the given linter to lint the files with given amount of workers (jobs)

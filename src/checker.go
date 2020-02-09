@@ -17,3 +17,10 @@ func (c Checker) getMessages() map[string]MessageDefinition {
 	msgMap := make(map[string]MessageDefinition)
 	return msgMap
 }
+
+// Initialize visit variables and stats
+func (c Checker) Open() {
+}
+
+func (c Checker) Close() {
+}
