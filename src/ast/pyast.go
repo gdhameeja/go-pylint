@@ -27,3 +27,21 @@ func BuildAST() *AST {
 	ast := new(AST)
 	return ast
 }
+
+
+type Module struct {
+	// name of the module
+	name string
+	// module docstring
+	doc string
+	// path to the file that this ast has been extracted from
+	filepath string
+	// path (optional)
+	path string
+	// whether the node represents a package or a module
+	packageName string
+	// parent node in the syntax tree
+	parent string
+	// Whether the ast was built from source
+	purePython bool
+}
