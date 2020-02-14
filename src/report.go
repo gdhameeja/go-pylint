@@ -1,5 +1,11 @@
 package src
 
+
+type IReporter interface {
+	HandleMessage()
+	DisplayReports()
+}
+
 type ReportManager struct {
 
 	// Our current design to store reports against checker

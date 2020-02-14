@@ -16,3 +16,14 @@ ipdb> ast_node.stream().readline
 <built-in method readline of _io.BufferedReader object at 0x7f70b9e32728>
 ipdb> tokens   
 ```
+
+- we also need tokenize to detect encoding of the file we are trying to read for some reason
+```
+astroid.builder.py
+def open_source_file(filename):
+    with open(filename, "rb") as byte_stream:
+        encoding = detect_encoding(byte_stream.readline)[0]
+    stream = open(filename, "r", newline=None, encoding=encoding)
+    data = stream.read()
+    return stream, encoding, data
+```

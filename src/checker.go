@@ -1,6 +1,17 @@
 package src
 
-//TODO(gaurav): looks like Checker will have to be an interface
+// IAstroidChecker
+// Interface for checker which prefers receive events according to statement type
+type IAstroidChecker interface {}
+
+// Interface for checker which need to parse the raw file
+type IRawChecker interface {
+	ProcessModule()
+}
+
+// Interface for checkers that need access to the token list
+type ITokenChecker interface {}
+
 
 // Where actual checking happens
 // AST based

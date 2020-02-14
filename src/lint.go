@@ -39,6 +39,14 @@ func (p PyLinter) Check(filesOrModules []string) {
 // walks the `filesOrModules` and builds the ast
 func (p PyLinter) doCheck(filesOrModules []string) {
 	walker := InitWalker(p)
+	checkers := p.PrepareCheckers()
+	tokenCheckers := []ITokenCheckers
+	rawCheckers := []IRawCheckers
+
+	for _, checker := range checkers {
+		checker.Open()
+		
+	}
 }
 
 func (p PyLinter) setReporter(reporter Reporter) {}
