@@ -22,6 +22,10 @@ type PyLinter struct {
 	rm ReportManager
 }
 
+func (p PyLinter) GetMessages() map[string]checkers.MessageDefinition {
+	return make(map[string]checkers.MessageDefinition)
+}
+
 // regsiter a new checker with the linter
 // also registers the reports associated with the checker
 func (p PyLinter) RegisterChecker(checker checkers.Checker) {

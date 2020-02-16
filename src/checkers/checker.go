@@ -1,10 +1,9 @@
 package checkers
 
-
 // IAstroidChecker
 // Interface for checker which prefers receive events according to statement type
 type Checker interface {
-	getMessages() map[string]MessageDefinition
+	GetMessages() map[string]MessageDefinition
 }
 
 // Interface for checker which need to parse the raw file
@@ -13,13 +12,12 @@ type IRawChecker interface {
 }
 
 // Interface for checkers that need access to the token list
-type ITokenChecker interface {}
-
+type ITokenChecker interface{}
 
 // Where actual checking happens
 // AST based
 type BaseChecker struct {
-	checkerId int
+	checkerId   int
 	checkerName string
 
 	// reportId, reportTitle
