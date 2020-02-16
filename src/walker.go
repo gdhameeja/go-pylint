@@ -1,6 +1,8 @@
 // contains the ASTWalker type and the constructor to build it
 
-package main
+package src
+
+import "github.com/go-pylint/src/checkers"
 
 
 type ASTWalker struct {
@@ -9,14 +11,14 @@ type ASTWalker struct {
 	// subject to change
 	visitEvents map[string][]string
 	leaveEvents map[string][]string
+	linter PyLinter
 }
 
-func (w ASTWalker) AddChecker(checker Checker) {
-
+func (w ASTWalker) AddChecker(checker checkers.Checker) {
 }
 
 func InitWalker(linter PyLinter) *ASTWalker {
 	walker := new(ASTWalker)
 	walker.linter = linter
-	return &walker
+	return walker
 }

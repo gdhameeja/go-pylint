@@ -2,12 +2,17 @@ package src
 
 import (
 	"fmt"
+	"path"
+	"strings"
+
+	"github.com/go-pylint/src/ast"
+	"github.com/go-pylint/src/checkers"
 )
 
 // master class that handles all the checkers
 // also controls the report generation
 type PyLinter struct {
-	checkers []Checker
+	checkers []checkers.Checker
 
 	// Our current design to store reports against checker
 	// is going to be with a checker_id (unique to each checker)
@@ -19,9 +24,9 @@ type PyLinter struct {
 
 // regsiter a new checker with the linter
 // also registers the reports associated with the checker
-func (p PyLinter) RegisterChecker(checker Checker) {
+func (p PyLinter) RegisterChecker(checker checkers.Checker) {
 	p.checkers = append(p.checkers, checker)
-	rId, rTitle := checker.report[0], checker.report[1]
+	rId, rTitle := checker.Report[0], checker.Report[1]
 	p.rm.RegisterReport(rId, rTitle, checker)
 }
 
@@ -39,30 +44,52 @@ func (p PyLinter) Check(filesOrModules []string) {
 // walks the `filesOrModules` and builds the ast
 func (p PyLinter) doCheck(filesOrModules []string) {
 	walker := InitWalker(p)
-	checkers := p.PrepareCheckers()
-	tokenCheckers := []ITokenCheckers
-	rawCheckers := []IRawCheckers
+	allCheckers := p.PrepareCheckers()
+	var tokenCheckers []checkers.ITokenChecker
+	var rawCheckers []checkers.IRawChecker
 
-	for _, checker := range checkers {
-		checker.Open()
-		
+	for _, checker := range allCheckers {
+		if _, ok := interface{}(checker).(checkers.ITokenChecker); ok {
+			tokenCheckers = append(tokenCheckers, checker)
+		}
 	}
+
+	for _, checker := range allCheckers {
+		if _, ok := interface{}(checker).(checkers.IRawChecker); ok {
+			rawCheckers = append(rawCheckers, checker)
+		}
+	}
+
+	for _, checker := range allCheckers {
+		// assuming all checkers implement IAstroidChecker interface
+		checker.Open()
+		walker.AddChecker(checker)
+	}
+
+	var filepath = filesOrModules[0]
+
+	// get the ast
+	// skipping the expanding step, and set current module
+	// seems unecessary for now
+	basename := path.Base(filepath)
+	modname := strings.Split(filepath, ".")[0]
+	ast := p.getAst(filepath, modname)
 }
 
 func (p PyLinter) setReporter(reporter Reporter) {}
 
+// func from lint to trigger getting the ast
+// filepath is the path of file we're linting
+// modname is the name of the module we are linting
+func (p PyLinter) getAst(filepath string, modname string) *ast.AST {
+	return new(ast.AST)
+}
 
 // PrepareChcecker returns array of all the needed checkers
 // for now it returns all the available checkers.
-func (p PyLinter) PrepareCheckers() []Checker {
-	return []Checker {p}
+func (p PyLinter) PrepareCheckers() []checkers.Checker {
+	return []checkers.Checker{p}
 }
-
-// communicates with python code to get the ast
-func (p PyLinter) GetAst(filepath string, modname string) {
-}
-
-
 
 // use the given linter to lint the files with given amount of workers (jobs)
 // for now we're going to do everything on the main thread, then maybe

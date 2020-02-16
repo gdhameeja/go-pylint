@@ -1,5 +1,7 @@
 package src
 
+import "github.com/go-pylint/src/checkers"
+
 
 type IReporter interface {
 	HandleMessage()
@@ -21,5 +23,5 @@ type ReportManager struct {
 // checker is the checker defining the report
 // all checker's will implement a common method
 // to generate the report
-func (rm ReportManager) RegisterReport(rId string, rTitle string, checker Checker) {
+func (rm ReportManager) RegisterReport(rId string, rTitle string, checker checkers.Checker) {
 }
