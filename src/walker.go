@@ -4,14 +4,13 @@ package src
 
 import "github.com/go-pylint/src/checkers"
 
-
 type ASTWalker struct {
 	nbStatements int
 
 	// subject to change
 	visitEvents map[string][]string
 	leaveEvents map[string][]string
-	linter PyLinter
+	linter      PyLinter
 }
 
 func (w ASTWalker) AddChecker(checker checkers.Checker) {

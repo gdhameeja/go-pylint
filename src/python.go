@@ -9,10 +9,9 @@ import "github.com/go-pylint/src/ast"
 // and hold all the details from the IPC
 type IPC struct {
 	purePython bool
-	tokenInfo []map[string]string
+	tokenInfo  []map[string]string
 }
 
 func GetAst(filepath, modname string) (*ast.AST, error) {
 	return new(ast.AST), nil
 }
-
