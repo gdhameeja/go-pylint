@@ -19,7 +19,7 @@ type PyLinter struct {
 	// against a slice of strings. This is because golang doesn't
 	// let us define comparable types (which may be used as
 	// keys in maps
-	rm ReportManager
+	rm checkers.ReportManager
 }
 
 func (p PyLinter) GetMessages() map[string]checkers.MessageDefinition {
@@ -30,7 +30,7 @@ func (p PyLinter) GetMessages() map[string]checkers.MessageDefinition {
 // also registers the reports associated with the checker
 func (p PyLinter) RegisterChecker(checker checkers.Checker) {
 	p.checkers = append(p.checkers, checker)
-	rId, rTitle := checker.Report[0], checker.Report[1]
+	rId, rTitle := checker.GetReports()
 	p.rm.RegisterReport(rId, rTitle, checker)
 }
 
@@ -58,9 +58,11 @@ func (p PyLinter) doCheck(filesOrModules []string) {
 		}
 	}
 
+	var rawChecker checkers.IRawChecker
 	for _, checker := range allCheckers {
 		if _, ok := interface{}(checker).(checkers.IRawChecker); ok {
-			rawCheckers = append(rawCheckers, checker)
+			rawChecker = checker.(checkers.IRawChecker)
+			rawCheckers = append(rawCheckers, rawChecker)
 		}
 	}
 
@@ -78,9 +80,10 @@ func (p PyLinter) doCheck(filesOrModules []string) {
 	basename := path.Base(filepath)
 	modname := strings.Split(filepath, ".")[0]
 	ast := p.getAst(filepath, modname)
+	fmt.Println(basename, ast)
 }
 
-func (p PyLinter) setReporter(reporter Reporter) {}
+func (p PyLinter) setReporter(reporter checkers.Reporter) {}
 
 // func from lint to trigger getting the ast
 // filepath is the path of file we're linting
@@ -93,6 +96,13 @@ func (p PyLinter) getAst(filepath string, modname string) *ast.AST {
 // for now it returns all the available checkers.
 func (p PyLinter) PrepareCheckers() []checkers.Checker {
 	return []checkers.Checker{p}
+}
+
+// Override *checkers.Checker* interface methods
+func (p PyLinter) Open() {}
+
+func (p PyLinter) GetReports() (string, string) {
+	return "", ""
 }
 
 // use the given linter to lint the files with given amount of workers (jobs)

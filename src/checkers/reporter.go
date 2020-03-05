@@ -1,3 +1,3 @@
-package src
+package checkers
 
 type Reporter struct {}

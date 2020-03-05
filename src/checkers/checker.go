@@ -1,9 +1,12 @@
 package checkers
 
+
 // IAstroidChecker
 // Interface for checker which prefers receive events according to statement type
 type Checker interface {
 	GetMessages() map[string]MessageDefinition
+	GetReports() (string, string)
+	Open()
 }
 
 // Interface for checker which need to parse the raw file
@@ -25,7 +28,7 @@ type BaseChecker struct {
 }
 
 // Identifies with the property 'messages' that checkers have
-func (c BaseChecker) getMessages() map[string]MessageDefinition {
+func (c BaseChecker) GetMessages() map[string]MessageDefinition {
 	msgMap := make(map[string]MessageDefinition)
 	return msgMap
 }

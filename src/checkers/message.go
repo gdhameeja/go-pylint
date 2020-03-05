@@ -38,7 +38,7 @@ func (store MessageDefinitionStore) registerMessage(msgId string, message Messag
 
 func (store MessageDefinitionStore) registerMessagesFromChecker(checker Checker) {
 	var messages map[string]MessageDefinition
-	messages = checker.getMessages()
+	messages = checker.GetMessages()
 	for msgId, message := range messages {
 		store.registerMessage(msgId, message)
 	}
