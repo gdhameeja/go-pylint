@@ -18,6 +18,10 @@ type Node struct{}
 // in no specified order. Useful if only want to modify nodes in place
 // and don't care about the context.
 
+func (node Node) IsStatement() bool {
+	return true;
+}
+
 // call python code to get all the ast details and return an AST
 func BuildAST() *AST {
 	ast := new(AST)
